@@ -1,15 +1,45 @@
 #!/bin/bash
 
 [[ -z $TEST_AREA_SCRIPTS_PATH ]] && { echo "Environment variable TEST_AREA_SCRIPTS_PATH is not set! Cannot continue!" >&2; exit 1; }
-[[ -z $1 ]] && export TARGET_BRANCH="melodic-devel" || export TARGET_BRANCH="$1"
-[[ -z $2 ]] && export REPO_NAME="psen_scan_v2" || export REPO_NAME="$2"
 
-TMP_DIR="/tmp"
-CATKIN_WS_NAME="catkin_ws"
-export CATKIN_WS_DIR="$TMP_DIR/$CATKIN_WS_NAME"
-export SRC_DIR="$CATKIN_WS_DIR/src"
-export REPO_DIR="$SRC_DIR/$REPO_NAME"
+set_important_directories()
+{
+  TMP_DIR="/tmp"
+  CATKIN_WS_NAME="catkin_ws"
+  export CATKIN_WS_DIR="$TMP_DIR/$CATKIN_WS_NAME"
+  export SRC_DIR="$CATKIN_WS_DIR/src"
+  export REPO_DIR="$SRC_DIR/$REPO_NAME"
+}
 
+set_default_argument_values()
+{
+  export TEST_NAME=""
+  export REPO_NAME="psen_scan_v2"
+  export TARGET_BRANCH="melodic-devel"
+  export ENDLESS=0
+}
+
+parse_arguments()
+{
+  . $TEST_AREA_SCRIPTS_PATH/parse_arguments.sh
+  [[ PARSE_ARGUMENTS_SUCCESSFUL == 0 ]] && exit_failure "Parsing arguments failed!"
+}
+
+print_current_arguments()
+{
+  echo "TEST_NAME: $TEST_NAME"
+  echo "REPO_NAME: $REPO_NAME"
+  echo "TARGET_BRANCH: $TARGET_BRANCH"
+  echo "ENDLESS: $ENDLESS"
+}
+
+setup()
+{
+  set_important_directories
+  set_default_argument_values
+  parse_arguments ${BASH_ARGV[*]}
+  print_current_arguments
+}
 
 exit_failure()
 {
@@ -79,6 +109,8 @@ execute_section()
   end_log_file_section "$section_name"
   echo -e "\033[0;36m$section_name done\033[0m"
 }
+
+setup
 
 create_log_file
 source_ROS
