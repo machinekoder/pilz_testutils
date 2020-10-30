@@ -7,7 +7,7 @@ log_ws_info()
 
 launch_psen_scan_node()
 {
-  roslaunch $REPO_NAME psen_scan.launch sensor_ip:=192.168.0.10 host_ip:=192.168.0.20& 2>&1
+  roslaunch $REPO_NAME $REPO_NAME.launch sensor_ip:=192.168.0.10 host_ip:=192.168.0.20& 2>&1
   PID=$!
   echo "Started Process $PID"
 }

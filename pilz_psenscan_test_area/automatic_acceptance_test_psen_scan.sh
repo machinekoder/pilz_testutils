@@ -2,12 +2,12 @@
 
 [[ -z $TEST_AREA_SCRIPTS_PATH ]] && { echo "Environment variable TEST_AREA_SCRIPTS_PATH is not set! Cannot continue!" >&2; exit 1; }
 [[ -z $1 ]] && export TARGET_BRANCH="melodic-devel" || export TARGET_BRANCH="$1"
+[[ -z $2 ]] && export REPO_NAME="psen_scan_v2" || export REPO_NAME="$2"
 
 TMP_DIR="/tmp"
 CATKIN_WS_NAME="catkin_ws"
 export CATKIN_WS_DIR="$TMP_DIR/$CATKIN_WS_NAME"
 export SRC_DIR="$CATKIN_WS_DIR/src"
-export REPO_NAME="psen_scan"
 export REPO_DIR="$SRC_DIR/$REPO_NAME"
 
 
